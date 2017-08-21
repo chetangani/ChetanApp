@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/ChetanApp.iml" filepath="$PROJECT_DIR$/ChetanApp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Chetanapp/Chetanapp.iml" filepath="$PROJECT_DIR$/Chetanapp/Chetanapp.iml" />
+    </modules>
+  </component>
+</project>
