@@ -19,10 +19,10 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class FuelAdapter extends RecyclerView.Adapter<FuelAdapter.FuelViewHolder> {
-    Context context;
-    ArrayList<Fueldetails> arrayList = new ArrayList<Fueldetails>();
-    FunctionCalls functionCalls = new FunctionCalls();
-    Database database;
+    private Context context;
+    private ArrayList<Fueldetails> arrayList = new ArrayList<Fueldetails>();
+    private FunctionCalls functionCalls = new FunctionCalls();
+    private Database database;
 
     public FuelAdapter(Context context, ArrayList<Fueldetails> arrayList, Database database) {
         this.context = context;
@@ -42,16 +42,19 @@ public class FuelAdapter extends RecyclerView.Adapter<FuelAdapter.FuelViewHolder
         Fueldetails fueldetails = arrayList.get(position);
         holder.tv_startreading.setText(fueldetails.getStartreading());
         holder.tv_fuelprice.setText(context.getResources().getString(R.string.rs)+" "+fueldetails.getFuelprice()+" /-");
-        holder.tv_fuelfilled.setText(fueldetails.getFuelfilled() + " ltr");
+        String fuel_filled = fueldetails.getFuelfilled() + " ltr";
+        holder.tv_fuelfilled.setText(fuel_filled);
         holder.tv_fuelamount.setText(context.getResources().getString(R.string.rs)+" "+fueldetails.getFuelamount()+" /-");
         holder.tv_fueldate.setText(functionCalls.convertdate(fueldetails.getFueldate()));
         try {
             if (!fueldetails.getEndreading().equals("")) {
                 holder.tv_endreading.setText(fueldetails.getEndreading());
                 double distance = Integer.parseInt(fueldetails.getEndreading()) - Integer.parseInt(fueldetails.getStartreading());
-                holder.tv_distance.setText(new DecimalFormat("##").format(distance)+" Kms");
+                String dist = new DecimalFormat("##").format(distance)+" Kms";
+                holder.tv_distance.setText(dist);
                 double fuel = Double.parseDouble(fueldetails.getFuelfilled());
-                holder.tv_mileage.setText(new DecimalFormat("##.##").format(distance / fuel)+" Km/L");
+                String mileage = new DecimalFormat("##.##").format(distance / fuel)+" Km/L";
+                holder.tv_mileage.setText(mileage);
                 int days = functionCalls.getDuration(fueldetails.getFuellastdate(), fueldetails.getFueldate());
                 if (days == 1) {
                     holder.tv_duration.setText(""+days+" Day");
