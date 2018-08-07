@@ -1,11 +1,7 @@
 package com.chetangani.myapp.fragments.services;
 
-/**
- * Created by Chetan Gani on 4/18/2017.
- */
-
 public class Servicedetails {
-    String service_date="", description="", reading="", amount="", lastreading=""/*, distance=""*/;
+    private String service_date, description, reading, amount, lastreading/*, distance*/;
 
     public Servicedetails(String service_date, String description, String reading, String amount, String lastreading/*, String distance*/) {
         this.service_date = service_date;

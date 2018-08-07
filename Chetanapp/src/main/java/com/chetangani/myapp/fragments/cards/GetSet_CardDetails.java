@@ -1,22 +1,19 @@
 package com.chetangani.myapp.fragments.cards;
 
-/**
- * Created by Chetan Gani on 4/21/2017.
- */
+import java.io.Serializable;
 
-public class CardDetails {
-    String card_type="", card_number="", card_expiry="", card_cvv="", card_name="", bank_image="", login_id="",
-            login_pass="", trans_pass="", card_id;
+public class GetSet_CardDetails implements Serializable {
+    private String card_type, card_number, card_expiry, card_cvv, card_name, bank_code, login_id, login_pass, trans_pass, card_id;
 
-    public CardDetails(String card_id, String card_type, String card_number, String card_expiry, String card_cvv, String card_name,
-                       String bank_image, String login_id, String login_pass, String trans_pass) {
+    public GetSet_CardDetails(String card_id, String card_type, String card_number, String card_expiry, String card_cvv, String card_name,
+                              String bank_code, String login_id, String login_pass, String trans_pass) {
         this.card_id = card_id;
         this.card_type = card_type;
         this.card_number = card_number;
         this.card_expiry = card_expiry;
         this.card_cvv = card_cvv;
         this.card_name = card_name;
-        this.bank_image = bank_image;
+        this.bank_code = bank_code;
         this.login_id = login_id;
         this.login_pass = login_pass;
         this.trans_pass = trans_pass;
@@ -46,8 +43,8 @@ public class CardDetails {
         return card_name;
     }
 
-    public String getBank_image() {
-        return bank_image;
+    public String getBank_code() {
+        return bank_code;
     }
 
     public String getLogin_id() {

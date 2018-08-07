@@ -1,8 +1,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.chetangani.myapp.fragments.services.BikeServiceExp">
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context="com.chetangani.myapp.fragments.services.BikeServiceExp">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -21,23 +21,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:text="@string/bike_service"
                 android:textSize="21sp"
-                android:textStyle="bold"
-                android:text="Bike Service Details" />
+                android:textStyle="bold"/>
 
             <android.support.design.widget.TextInputLayout
-                android:layout_marginTop="16dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp">
 
                 <EditText
                     android:id="@+id/et_servicedate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawableRight="@drawable/cal_ettxt"
-                    android:hint="Service Date"
+                    android:drawableEnd="@drawable/cal_ettxt"
+                    android:hint="@string/bike_service_date"
                     android:imeOptions="actionNext"
-                    android:inputType="none" />
+                    android:inputType="none"/>
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -49,9 +49,39 @@
                     android:id="@+id/et_kilometers"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Kilometers"
-                    android:inputType="number" />
+                    android:hint="@string/bike_service_kilometers"
+                    android:imeOptions="actionDone"
+                    android:inputType="number"/>
             </android.support.design.widget.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp8"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="@string/particular"
+                    android:textSize="@dimen/sp16"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.3"
+                    android:gravity="center"
+                    android:text="@string/semi"/>
+
+                <Spinner
+                    android:id="@+id/sp_service_particular"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.5"/>
+
+            </LinearLayout>
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
@@ -62,9 +92,10 @@
                     android:id="@+id/et_description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Description"
-                    android:maxLines="2"
-                    android:inputType="textCapSentences" />
+                    android:hint="@string/description"
+                    android:imeOptions="actionNext"
+                    android:inputType="textCapSentences"
+                    android:maxLines="2"/>
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -76,12 +107,11 @@
                     android:id="@+id/et_expamount"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Amount"
-                    android:inputType="number" />
+                    android:hint="@string/amount"
+                    android:imeOptions="actionDone"
+                    android:inputType="number"/>
             </android.support.design.widget.TextInputLayout>
-
         </LinearLayout>
-
     </ScrollView>
 
     <Button
@@ -91,8 +121,8 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:background="@drawable/buttonpressed"
-        android:text="Update Details"
+        android:text="@string/update_service_details"
         android:textColor="#FFFFFF"
         android:textSize="18sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"/>
 </RelativeLayout>

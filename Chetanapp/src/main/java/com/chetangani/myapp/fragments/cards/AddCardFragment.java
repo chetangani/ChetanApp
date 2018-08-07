@@ -1,13 +1,17 @@
 package com.chetangani.myapp.fragments.cards;
 
+import android.annotation.SuppressLint;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
+import android.text.InputFilter;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -16,7 +20,6 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -31,12 +34,12 @@ import com.chetangani.myapp.database.Database;
 import com.chetangani.myapp.values.FunctionCalls;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Objects;
 
 public class AddCardFragment extends Fragment {
     View view;
     EditText et_cardnumber, et_expiry, et_cvv, et_cardname, et_loginid, et_loginpass, et_transpass;
-    TextInputLayout til_cardnumber;
+    TextInputLayout til_cardnumber, til_login_pass, til_trans_pass, til_login_id;
     ImageView card_logo;
     Button btn_addcard;
     boolean updatedetails = false;
@@ -49,40 +52,43 @@ public class AddCardFragment extends Fragment {
     RadioButton rb_loginyes, rb_loginno, rb_credit, rb_debit;
     FunctionCalls functionCalls;
     Database database;
+    boolean american_card = false, diners_card = false, valid_card = false;
 
     public AddCardFragment() {
         // Required empty public constructor
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_add_card, container, false);
 
-        til_cardnumber = (TextInputLayout) view.findViewById(R.id.til_cardnumber);
-        et_cardnumber = (EditText) view.findViewById(R.id.et_cardnumber);
+        til_cardnumber = view.findViewById(R.id.til_cardnumber);
+        til_login_id = view.findViewById(R.id.til_loginid);
+        til_login_pass = view.findViewById(R.id.til_loginpassword);
+        til_trans_pass = view.findViewById(R.id.til_transpassword);
+        et_cardnumber = view.findViewById(R.id.et_cardnumber);
         et_cardnumber.requestFocus();
-        et_expiry = (EditText) view.findViewById(R.id.et_expiry);
-        et_cvv = (EditText) view.findViewById(R.id.et_cvv);
-        et_loginid = (EditText) view.findViewById(R.id.et_loginid);
-        et_loginpass = (EditText) view.findViewById(R.id.et_loginpassword);
-        et_transpass = (EditText) view.findViewById(R.id.et_transpassword);
-        et_cardname = (EditText) view.findViewById(R.id.et_cardname);
-        sp_banknames = (Spinner) view.findViewById(R.id.spn_banknames);
+        et_expiry = view.findViewById(R.id.et_expiry);
+        et_cvv = view.findViewById(R.id.et_cvv);
+        et_loginid = view.findViewById(R.id.et_loginid);
+        et_loginpass = view.findViewById(R.id.et_loginpassword);
+        et_transpass = view.findViewById(R.id.et_transpassword);
+        et_cardname = view.findViewById(R.id.et_cardname);
+        sp_banknames = view.findViewById(R.id.spn_banknames);
         banklist = new ArrayList<>();
-        rg_logindetails = (RadioGroup) view.findViewById(R.id.rg_loginpass);
-        rb_loginyes = (RadioButton) view.findViewById(R.id.rb_yes);
-        rb_loginno = (RadioButton) view.findViewById(R.id.rb_no);
-        rg_cardtype = (RadioGroup) view.findViewById(R.id.rg_card_type);
-        rb_credit = (RadioButton) view.findViewById(R.id.rb_credit);
-        rb_debit = (RadioButton) view.findViewById(R.id.rb_debit);
-        card_logo = (ImageView) view.findViewById(R.id.card_logo);
-        btn_addcard = (Button) view.findViewById(R.id.addcard_btn);
+        rg_logindetails = view.findViewById(R.id.rg_loginpass);
+        rb_loginyes = view.findViewById(R.id.rb_yes);
+        rb_loginno = view.findViewById(R.id.rb_no);
+        rg_cardtype = view.findViewById(R.id.rg_card_type);
+        rb_credit = view.findViewById(R.id.rb_credit);
+        rb_debit = view.findViewById(R.id.rb_debit);
+        card_logo = view.findViewById(R.id.card_logo);
+        btn_addcard = view.findViewById(R.id.addcard_btn);
 
         functionCalls = new FunctionCalls();
-        database = new Database(getActivity());
-        database.open();
+        database = ((MainActivity) Objects.requireNonNull(getActivity())).getDatabase();
 
         logindetails(false);
 
@@ -93,7 +99,7 @@ public class AddCardFragment extends Fragment {
         }
         list.close();
 
-        bankadapter = new ArrayAdapter<String>(view.getContext(), android.R.layout.simple_spinner_dropdown_item, banklist);
+        bankadapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_spinner_dropdown_item, banklist);
         sp_banknames.setAdapter(bankadapter);
 
         getBundledetails();
@@ -103,6 +109,7 @@ public class AddCardFragment extends Fragment {
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
 
+            @SuppressLint("SetTextI18n")
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (count == 1) {
@@ -130,10 +137,28 @@ public class AddCardFragment extends Fragment {
                         if (digit1.equals("4")) {
                             card_logo.setImageResource(R.drawable.visacard_logo);
                             card_logo.setVisibility(View.VISIBLE);
-                        }
-                        else if (digit2.compareTo("51")>=0 && digit2.compareTo("55")<=0) {
+                        } else if (digit2.compareTo("51")>=0 && digit2.compareTo("55")<=0) {
                             card_logo.setImageResource(R.drawable.mastercard_logo);
                             card_logo.setVisibility(View.VISIBLE);
+                        } else if (digit2.equals("34") || digit2.equals("37")) {
+                            card_logo.setImageResource(R.drawable.american_express_logo);
+                            card_logo.setVisibility(View.VISIBLE);
+                            setEdittext_length(et_cardnumber, 18);
+                            setEdittext_length(et_cvv, 4);
+                            american_card = true;
+                            diners_card = false;
+                        } else if (digit2.equals("36")) {
+                            card_logo.setImageResource(R.drawable.diners_club_logo);
+                            card_logo.setVisibility(View.VISIBLE);
+                            setEdittext_length(et_cardnumber, 17);
+                            setEdittext_length(et_cvv, 3);
+                            diners_card = true;
+                            american_card = false;
+                        } else {
+                            setEdittext_length(et_cardnumber, 19);
+                            setEdittext_length(et_cvv, 3);
+                            american_card = false;
+                            diners_card = false;
                         }
                     }
                 }
@@ -153,26 +178,19 @@ public class AddCardFragment extends Fragment {
                         et_cardnumber.setText(first);
                         et_cardnumber.setSelection(first.length());
                     }
-                    if (s.length() == 2)
+                    if (s.length() == 2) {
                         card_logo.setVisibility(View.INVISIBLE);
-                }
-                if (s.length() == 19) {
-                    if (!checkcard(functionCalls.getcardnumber(s.toString()))) {
-                        et_cardnumber.setError("Invalid Card Number");
-                    } else {
-                        if (!updatedetails) {
-                            if (checkcardavailable(functionCalls.getcardnumber(s.toString()))) {
-                                et_cardnumber.setError("Card Number already exists");
-                            } else {
-                                et_expiry.requestFocus();
-                                et_expiry.setSelection(et_expiry.getText().length());
-                            }
-                        } else {
-                            et_expiry.requestFocus();
-                            et_expiry.setSelection(et_expiry.getText().length());
-                        }
+                        setEdittext_length(et_cardnumber, 19);
+                        setEdittext_length(et_cvv, 3);
+                        american_card = false;
+                        diners_card = false;
                     }
                 }
+                if (diners_card) {
+                    validdate_card(s, 17);
+                } else if (american_card) {
+                    validdate_card(s, 18);
+                } else validdate_card(s, 19);
             }
 
             @Override
@@ -185,6 +203,7 @@ public class AddCardFragment extends Fragment {
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
 
+            @SuppressLint("SetTextI18n")
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (count == 1) {
@@ -211,6 +230,7 @@ public class AddCardFragment extends Fragment {
                 }
                 if (s.length() == 1) {
                     int num = Integer.parseInt(s.toString().substring(0, 1));
+                    //noinspection StatementWithEmptyBody
                     if (num == 0 || num == 1) {
                     } else et_expiry.setText("");
                 }
@@ -218,6 +238,7 @@ public class AddCardFragment extends Fragment {
                     first = s.toString().substring(0, 1);
                     if (first.equals("1")) {
                         int num = Integer.parseInt(s.toString().substring(1, 2));
+                        //noinspection StatementWithEmptyBody
                         if (num == 0 || num == 1 || num == 2) {
                         } else {
                             et_expiry.setText(first);
@@ -243,9 +264,16 @@ public class AddCardFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length() == 3) {
-                    et_cardname.requestFocus();
-                    et_cardname.setSelection(et_cardname.getText().length());
+                if (american_card) {
+                    if (s.length() == 4) {
+                        et_cardname.requestFocus();
+                        et_cardname.setSelection(et_cardname.getText().length());
+                    }
+                } else {
+                    if (s.length() == 3) {
+                        et_cardname.requestFocus();
+                        et_cardname.setSelection(et_cardname.getText().length());
+                    }
                 }
             }
 
@@ -270,9 +298,9 @@ public class AddCardFragment extends Fragment {
             @Override
             public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
                 if (rb_credit.isChecked())
-                    card_type = "Credit";
+                    card_type = "1";
                 if (rb_debit.isChecked())
-                    card_type = "Debit";
+                    card_type = "0";
             }
         });
 
@@ -329,7 +357,7 @@ public class AddCardFragment extends Fragment {
         btn_addcard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity) getActivity()).hidekeyboard();
+                ((MainActivity) Objects.requireNonNull(getActivity())).hidekeyboard();
                 addcarddetails(v);
             }
         });
@@ -337,15 +365,47 @@ public class AddCardFragment extends Fragment {
         return view;
     }
 
+    private void validdate_card(CharSequence charSequence, int length) {
+        if (charSequence.length() == length) {
+            if (checkcard(functionCalls.getcardnumber(charSequence.toString()))) {
+                et_cardnumber.setError("Invalid Card Number");
+                valid_card = false;
+            } else {
+                valid_card = true;
+                if (!updatedetails) {
+                    if (checkcardavailable(functionCalls.getcardnumber(charSequence.toString()))) {
+                        et_cardnumber.setError("Card Number already exists");
+                    } else {
+                        et_expiry.requestFocus();
+                        et_expiry.setSelection(et_expiry.getText().length());
+                    }
+                } else {
+                    et_expiry.requestFocus();
+                    et_expiry.setSelection(et_expiry.getText().length());
+                }
+            }
+        }
+    }
+
+    private void setEdittext_length(EditText editText, int length) {
+        editText.setFilters(new InputFilter[] { new InputFilter.LengthFilter(length) });
+    }
+
+    private boolean validate_cvv(String cvv) {
+        if (american_card) {
+            return cvv.length() == 4;
+        } else return cvv.length() == 3;
+    }
+
     private void logindetails(boolean view) {
         if (view) {
-            et_loginid.setVisibility(View.VISIBLE);
-            et_loginpass.setVisibility(View.VISIBLE);
-            et_transpass.setVisibility(View.VISIBLE);
+            til_login_id.setVisibility(View.VISIBLE);
+            til_login_pass.setVisibility(View.VISIBLE);
+            til_trans_pass.setVisibility(View.VISIBLE);
         } else {
-            et_loginid.setVisibility(View.GONE);
-            et_loginpass.setVisibility(View.GONE);
-            et_transpass.setVisibility(View.GONE);
+            til_login_id.setVisibility(View.GONE);
+            til_login_pass.setVisibility(View.GONE);
+            til_trans_pass.setVisibility(View.GONE);
         }
     }
 
@@ -367,35 +427,22 @@ public class AddCardFragment extends Fragment {
             }
         }
         result = (result % 10);
-        if (result == 0)
-            return true;
-        else return false;
+        return result != 0;
     }
 
     private void addcarddetails(View view) {
-        if (!card_type.equals("")) {
+        if (!TextUtils.isEmpty(card_type)) {
             card_number = et_cardnumber.getText().toString();
-            if (!card_number.equals("")) {
-                if (card_number.length() == 19) {
-                    if (checkcard(functionCalls.getcardnumber(card_number))) {
-                        card_expiry = et_expiry.getText().toString();
-                        if (!card_expiry.equals("")) {
-                            card_cvv = et_cvv.getText().toString();
-                            if (!card_cvv.equals("")) {
+            if (!TextUtils.isEmpty(card_number)) {
+                if (valid_card) {
+                    card_expiry = et_expiry.getText().toString();
+                    if (!TextUtils.isEmpty(card_expiry)) {
+                        card_cvv = et_cvv.getText().toString();
+                        if (!TextUtils.isEmpty(card_cvv)) {
+                            if (validate_cvv(card_cvv)) {
                                 card_name = et_cardname.getText().toString();
-                                if (!card_name.equals("")) {
-                                    if (!bank_code.equals("")) {
-                                        login_id = et_loginid.getText().toString();
-                                        login_pass = et_loginpass.getText().toString();
-                                        if (!login_id.equals("")) {
-                                            if (!login_pass.equals("")) {
-                                            } else {
-                                                et_loginpass.setError("Enter Login Password");
-                                                ((MainActivity) getActivity()).showsnackbar(view, "Enter Login Password");
-                                                return;
-                                            }
-                                        }
-                                        trans_pass = et_transpass.getText().toString();
+                                if (!TextUtils.isEmpty(card_name)) {
+                                    if (!TextUtils.isEmpty(bank_code)) {
                                         if (updatedetails) {
                                             Cursor update = database.updatecarddetails(card_type, functionCalls.getcardnumber(card_number), card_expiry, card_cvv, card_name,
                                                     bank_code, login_id, login_pass, trans_pass, card_id);
@@ -403,48 +450,50 @@ public class AddCardFragment extends Fragment {
                                         } else {
                                             if (checkcardavailable(functionCalls.getcardnumber(card_number))) {
                                                 et_cardnumber.setError("Card Number already available");
-                                                ((MainActivity) getActivity()).showsnackbar(view, "Card Number already available");
+                                                showsnackbar(view, "Card Number already available");
                                                 return;
                                             } else database.insertcarddetails(card_type, functionCalls.getcardnumber(card_number), card_expiry, card_cvv,
                                                     card_name, bank_code, login_id, login_pass, trans_pass);
                                         }
                                         FragmentManager fragmentManager = getFragmentManager();
+                                        assert fragmentManager != null;
                                         fragmentManager.popBackStack();
                                         FragmentTransaction ft = getFragmentManager().beginTransaction();
                                         ft.replace(R.id.container_main, new AllCards());
                                         ft.commit();
-                                    } else ((MainActivity) getActivity()).showsnackbar(view, "Select Bank Name other than SELECT");
+                                    } else showsnackbar(view, "Select Bank Name other than SELECT");
                                 } else {
                                     et_cardname.setError("Enter Card Name");
-                                    ((MainActivity) getActivity()).showsnackbar(view, "Enter Card Name");
+                                    showsnackbar(view, "Enter Card Name");
                                 }
                             } else {
-                                et_cvv.setError("Enter Card CVV Number");
-                                ((MainActivity) getActivity()).showsnackbar(view, "Enter Card CVV Number");
+                                et_cvv.setError("Enter Valid CVV");
+                                showsnackbar(view, "Enter Valid CVV");
                             }
                         } else {
-                            et_expiry.setError("Enter Card Expiry Details");
-                            ((MainActivity) getActivity()).showsnackbar(view, "Enter Card Expiry Details");
+                            et_cvv.setError("Enter Card CVV");
+                            showsnackbar(view, "Enter Card CVV");
                         }
                     } else {
-                        et_cardnumber.setError("Enter Valid Card Number");
-                        ((MainActivity) getActivity()).showsnackbar(view, "Enter Valid Card Number");
+                        et_expiry.setError("Enter Card Expiry Details");
+                        showsnackbar(view, "Enter Card Expiry Details");
                     }
                 } else {
                     et_cardnumber.setError("Enter Valid Card Number");
-                    ((MainActivity) getActivity()).showsnackbar(view, "Enter Valid Card Number");
+                    showsnackbar(view, "Enter Valid Card Number");
                 }
             } else {
                 et_cardnumber.setError("Enter Card Number");
-                ((MainActivity) getActivity()).showsnackbar(view, "Enter Card Number");
+                showsnackbar(view, "Enter Card Number");
             }
-        } else ((MainActivity) getActivity()).showsnackbar(view, "Select Card type and proceed");
+        } else showsnackbar(view, "Select Card type and proceed");
     }
 
     private void getBundledetails() {
-        Bundle bundle = new Bundle();
+        Bundle bundle;
         bundle = getArguments();
         try {
+            assert bundle != null;
             if (bundle.getString("id") != null) {
                 card_id = bundle.getString("id");
                 updatedetails = true;
@@ -452,27 +501,45 @@ public class AddCardFragment extends Fragment {
                 Cursor getdetails = database.getparticularcarddetails(card_id);
                 getdetails.moveToNext();
                 card_type = getdetails.getString(getdetails.getColumnIndex("card_type"));
-                if (card_type.equals("Credit"))
+                if (card_type.equals("1"))
                     rb_credit.setChecked(true);
                 else rb_debit.setChecked(true);
                 String cardnumber = getdetails.getString(getdetails.getColumnIndex("card_number"));
                 et_cardnumber.setText(functionCalls.showcardnumber(cardnumber));
                 et_cardnumber.setSelection(et_cardnumber.getText().length());
-                String digit1 = cardnumber.toString().substring(0,1);
-                String digit2 = cardnumber.toString().substring(0,2);
+                String digit1 = cardnumber.substring(0,1);
+                String digit2 = cardnumber.substring(0,2);
                 if (digit1.equals("4")) {
                     card_logo.setImageResource(R.drawable.visacard_logo);
                     card_logo.setVisibility(View.VISIBLE);
-                }
-                else if (digit2.compareTo("51")>=0 && digit2.compareTo("55")<=0) {
+                } else if (digit2.compareTo("51")>=0 && digit2.compareTo("55")<=0) {
                     card_logo.setImageResource(R.drawable.mastercard_logo);
                     card_logo.setVisibility(View.VISIBLE);
+                } else if (digit2.equals("34") || digit2.equals("37")) {
+                    card_logo.setImageResource(R.drawable.american_express_logo);
+                    card_logo.setVisibility(View.VISIBLE);
+                    setEdittext_length(et_cardnumber, 18);
+                    setEdittext_length(et_cvv, 4);
+                    american_card = true;
+                    diners_card = false;
+                } else if (digit2.equals("36")) {
+                    card_logo.setImageResource(R.drawable.diners_club_logo);
+                    card_logo.setVisibility(View.VISIBLE);
+                    setEdittext_length(et_cardnumber, 17);
+                    setEdittext_length(et_cvv, 3);
+                    diners_card = true;
+                    american_card = false;
+                } else {
+                    setEdittext_length(et_cardnumber, 19);
+                    setEdittext_length(et_cvv, 3);
+                    american_card = false;
+                    diners_card = false;
                 }
-                if (cardnumber.length() == 19) {
-                    if (!checkcard(functionCalls.getcardnumber(cardnumber))) {
-                        et_cardnumber.setError("Invalid Card Number");
-                    }
-                }
+                if (diners_card) {
+                    validdate_card(et_cardnumber.getText(), 17);
+                } else if (american_card) {
+                    validdate_card(et_cardnumber.getText(), 18);
+                } else validdate_card(et_cardnumber.getText(), 19);
                 et_expiry.setText(getdetails.getString(getdetails.getColumnIndex("card_expiry")));
                 et_cvv.setText(getdetails.getString(getdetails.getColumnIndex("card_cvv")));
                 et_cardname.setText(getdetails.getString(getdetails.getColumnIndex("card_name")));
@@ -487,8 +554,10 @@ public class AddCardFragment extends Fragment {
 
     private boolean checkcardavailable(String cardnumber) {
         Cursor check = database.checkcarddetails(cardnumber);
-        if (check.getCount() > 0)
-            return true;
-        else return false;
+        return check.getCount() > 0;
+    }
+
+    private void showsnackbar(View view, String message) {
+        ((MainActivity) Objects.requireNonNull(getActivity())).showsnackbar(view, message);
     }
 }

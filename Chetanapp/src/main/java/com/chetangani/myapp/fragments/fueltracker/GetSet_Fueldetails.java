@@ -1,14 +1,15 @@
 package com.chetangani.myapp.fragments.fueltracker;
 
-/**
- * Created by Chetan Gani on 4/16/2017.
- */
+import java.io.Serializable;
 
-public class Fueldetails {
-    String startreading="", endreading="", fuelprice="", fuelfilled="", fueldate="", fuelamount="", fuellastdate="", fuelid="";
+public class GetSet_Fueldetails implements Serializable {
+    private String startreading, endreading, fuelprice, fuelfilled, fueldate, fuelamount, fuellastdate, fuelid, fuel_brand;
 
-    public Fueldetails(String fuelid, String startreading, String endreading, String fuelprice, String fuelfilled, String fueldate,
-                       String fuelamount, String fuellastdate) {
+    public GetSet_Fueldetails() {
+    }
+
+    public GetSet_Fueldetails(String fuelid, String startreading, String endreading, String fuelprice, String fuelfilled, String fueldate,
+                              String fuelamount, String fuellastdate, String fuelbrand) {
         this.fuelid = fuelid;
         this.startreading = startreading;
         this.endreading = endreading;
@@ -17,6 +18,7 @@ public class Fueldetails {
         this.fueldate = fueldate;
         this.fuelamount = fuelamount;
         this.fuellastdate = fuellastdate;
+        this.fuel_brand = fuelbrand;
     }
 
     public String getFuelid() {
@@ -49,5 +51,9 @@ public class Fueldetails {
 
     public String getFuellastdate() {
         return fuellastdate;
+    }
+
+    public String getFuel_brand() {
+        return fuel_brand;
     }
 }

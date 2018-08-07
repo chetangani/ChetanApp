@@ -1,57 +1,82 @@
 package com.chetangani.myapp.fragments.fueltracker;
 
-
-import android.app.Dialog;
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import com.chetangani.myapp.MainActivity;
 import com.chetangani.myapp.R;
 import com.chetangani.myapp.adapters.FuelAdapter;
 import com.chetangani.myapp.database.Database;
+import com.chetangani.myapp.values.GetSetValues;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Objects;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class AllFuelDetails extends Fragment {
-    public static final int NODATA_DLG = 1;
+    private static final int NODATA_DLG = 1;
+    private static final int READING_STATUS_DLG = 2;
+    private static final int FUEL_STATUS_DLG = 3;
 
     View view;
-    private LinearLayout addfuels_btn;
     RecyclerView trackers_view;
-    ArrayList<Fueldetails> trackers_list;
+    ArrayList<GetSet_Fueldetails> trackers_list;
     FuelAdapter fuelAdapter;
-    Fueldetails fueldetails;
+    GetSet_Fueldetails getSetFueldetails;
+    GetSetValues getSetValues;
     Database database;
     Cursor trackers;
-    String fuelid="", startreading="", endreading="", fuelprice="", fuelfilled="", fueldate="", fuelamount="", fuellastdate="";
+    String fuelid="", startreading="", endreading="", fuelprice="", fuelfilled="", fueldate="", fuelamount="", fuellastdate="", fuelbrand="";
+    TextInputLayout til_reading;
+    TextInputEditText et_reading;
 
     public AllFuelDetails() {
         // Required empty public constructor
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.allfueltrackers_layout, container, false);
 
-        database = new Database(getActivity());
-        database.open();
+        database = ((MainActivity) Objects.requireNonNull(getActivity())).getDatabase();
+        getSetValues = new GetSetValues();
 
-        addfuels_btn = (LinearLayout) view.findViewById(R.id.addfuels_btn);
-        trackers_view = (RecyclerView) view.findViewById(R.id.allfuelTrackers_view);
+        FloatingActionButton addfuels_btn = view.findViewById(R.id.addfuels_btn);
+        trackers_view = view.findViewById(R.id.allfuelTrackers_view);
         trackers_list = new ArrayList<>();
         fuelAdapter = new FuelAdapter(getActivity(), trackers_list, database);
         trackers_view.setHasFixedSize(true);
@@ -61,7 +86,7 @@ public class AllFuelDetails extends Fragment {
         addfuels_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                FragmentTransaction ft = Objects.requireNonNull(getFragmentManager()).beginTransaction();
                 ft.replace(R.id.container_main, new VehicleFuelTracker());
                 ft.addToBackStack(null);
                 ft.commit();
@@ -88,20 +113,38 @@ public class AllFuelDetails extends Fragment {
                 } catch (NullPointerException ee) {
                     fuellastdate = "";
                 }
-                fueldetails = new Fueldetails(fuelid, startreading, endreading, fuelprice, fuelfilled, fueldate, fuelamount, fuellastdate);
-                trackers_list.add(fueldetails);
+                fuelbrand = trackers.getString(trackers.getColumnIndex("fuel_brand"));
+                getSetFueldetails = new GetSet_Fueldetails(fuelid, startreading, endreading, fuelprice, fuelfilled, fueldate, fuelamount,
+                        fuellastdate, fuelbrand);
+                trackers_list.add(getSetFueldetails);
                 fuelAdapter.notifyDataSetChanged();
             }
-        } /*else showdialog(NODATA_DLG);*/
+        } else showdialog(NODATA_DLG);
 
         return view;
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.fuel_tracker_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_check_mileage:
+                showdialog(READING_STATUS_DLG);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     protected void showdialog(int id) {
-        Dialog dialog;
+        final AlertDialog alertDialog;
         switch (id) {
             case NODATA_DLG:
-                AlertDialog.Builder nodata = new AlertDialog.Builder(getActivity());
+                AlertDialog.Builder nodata = new AlertDialog.Builder(Objects.requireNonNull(getActivity()));
                 nodata.setTitle("Fuel Trackers");
                 nodata.setCancelable(false);
                 nodata.setMessage("No Data is available to show up.. \nPlease add the fuel details to get data here.. " +
@@ -109,9 +152,12 @@ public class AllFuelDetails extends Fragment {
                 nodata.setPositiveButton("YES", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        FragmentTransaction ft = getFragmentManager().beginTransaction();
-                        ft.replace(R.id.container_main, new VehicleFuelTracker());
-                        ft.commit();
+                        FragmentTransaction ft;
+                        if (getFragmentManager() != null) {
+                            ft = getFragmentManager().beginTransaction();
+                            ft.replace(R.id.container_main, new VehicleFuelTracker());
+                            ft.commit();
+                        }
                     }
                 });
                 nodata.setNegativeButton("NO", new DialogInterface.OnClickListener() {
@@ -120,9 +166,122 @@ public class AllFuelDetails extends Fragment {
                         getActivity().finish();
                     }
                 });
-                dialog = nodata.create();
-                dialog.show();
+                alertDialog = nodata.create();
+                alertDialog.show();
                 break;
+
+            case READING_STATUS_DLG:
+                AlertDialog.Builder reading_dialog = new AlertDialog.Builder(Objects.requireNonNull(getActivity()));
+                reading_dialog.setTitle(getResources().getString(R.string.check_mileage));
+                @SuppressLint("InflateParams")
+                LinearLayout reading_layout = (LinearLayout) getLayoutInflater().inflate(R.layout.check_mileage_layout, null);
+                reading_dialog.setView(reading_layout);
+                til_reading = reading_layout.findViewById(R.id.til_enter_reading);
+                et_reading = reading_layout.findViewById(R.id.et_enter_reading);
+                TextView tv_last_reading = reading_layout.findViewById(R.id.dlg_fuel_last_reading);
+                Cursor reading = database.fueldetails();
+                if (reading.getCount() > 0) {
+                    reading.moveToNext();
+                    getSetValues.setLast_reading(reading.getInt(reading.getColumnIndex("start_reading")));
+                    tv_last_reading.setText(String.valueOf(getSetValues.getLast_reading()));
+                }
+                reading_dialog.setPositiveButton("Mileage", null);
+                reading_dialog.setNeutralButton("Cancel", null);
+                alertDialog = reading_dialog.create();
+                validate_reading(alertDialog);
+                alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                    @Override
+                    public void onShow(DialogInterface dialog) {
+                        Button positive = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+                        Button neutral = alertDialog.getButton(AlertDialog.BUTTON_NEUTRAL);
+                        positive.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                check_reading(alertDialog);
+                            }
+                        });
+                        neutral.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                alertDialog.dismiss();
+                            }
+                        });
+                    }
+                });
+                alertDialog.show();
+                break;
+
+            case FUEL_STATUS_DLG:
+                AlertDialog.Builder mileage_status = new AlertDialog.Builder(Objects.requireNonNull(getActivity()));
+                @SuppressLint("InflateParams")
+                LinearLayout status_layout = (LinearLayout) getLayoutInflater().inflate(R.layout.mileage_status_layout, null);
+                mileage_status.setView(status_layout);
+                TextView tv_distance = status_layout.findViewById(R.id.dlg_fuel_distance);
+                TextView tv_mileage = status_layout.findViewById(R.id.dlg_fuel_mileage);
+                tv_distance.setText(getSetValues.getDistance());
+                tv_mileage.setText(getSetValues.getMileage());
+                mileage_status.setPositiveButton("OK", null);
+                alertDialog = mileage_status.create();
+                alertDialog.show();
+                break;
+        }
+    }
+
+    private void mileage_result(String reading, GetSetValues getSetValues) {
+        Cursor mileage = database.fueldetails();
+        if (mileage.getCount() > 0) {
+            mileage.moveToNext();
+            String previous_reading = mileage.getString(mileage.getColumnIndex("start_reading"));
+            int distance = Integer.parseInt(reading) - Integer.parseInt(previous_reading);
+            getSetValues.setDistance(String.valueOf(distance)+" Kms");
+            double fuel = mileage.getDouble(mileage.getColumnIndex("fuel_filled"));
+            getSetValues.setMileage(new DecimalFormat("##0.##").format(distance / fuel)+" Kms/L");
+        } else showdialog(NODATA_DLG);
+    }
+
+    private void validate_reading(final AlertDialog alertDialog) {
+        et_reading.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (before == 1) {
+                    if (til_reading.isErrorEnabled())
+                        til_reading.setErrorEnabled(false);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
+        et_reading.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    check_reading(alertDialog);
+                }
+                return false;
+            }
+        });
+    }
+
+    private void check_reading(AlertDialog alertDialog) {
+        if (!TextUtils.isEmpty(et_reading.getText())) {
+            if (Integer.parseInt(et_reading.getText().toString()) > getSetValues.getLast_reading()) {
+                mileage_result(et_reading.getText().toString(), getSetValues);
+                alertDialog.dismiss();
+                showdialog(FUEL_STATUS_DLG);
+            } else {
+                til_reading.setErrorEnabled(true);
+                til_reading.setError(getResources().getString(R.string.enter_valid_reading));
+            }
+        } else {
+            til_reading.setErrorEnabled(true);
+            til_reading.setError(getResources().getString(R.string.enter_reading_error));
         }
     }
 

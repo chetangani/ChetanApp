@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/fuelviewtracker"
     android:layout_width="match_parent"
@@ -15,18 +16,19 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:baselineAligned="false"
         android:orientation="horizontal">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="50"
+            android:layout_weight="1"
             android:orientation="vertical">
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorAccent" />
+                android:background="@color/colorAccent"/>
         </LinearLayout>
 
         <LinearLayout
@@ -34,69 +36,14 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/dp4"
             android:layout_marginStart="@dimen/dp4"
-            android:layout_weight="1"
+            android:layout_weight="0.02"
             android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp4"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:id="@+id/startreading_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/tv_startreading_txt"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/tv_lastreading"
-                        android:textSize="@dimen/sp15" />
-
-                    <TextView
-                        android:id="@+id/tv_startreading"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp4"
-                        android:text="22640"
-                        android:textSize="@dimen/sp15" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/endreading_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/tv_endreading_txt"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/tv_curreading"
-                        android:textSize="@dimen/sp15" />
-
-                    <TextView
-                        android:id="@+id/tv_endreading"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp4"
-                        android:text="22950"
-                        android:textSize="@dimen/sp15" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp4"
+                android:baselineAligned="false"
                 android:orientation="horizontal">
 
                 <LinearLayout
@@ -106,74 +53,17 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/tv_fuelprice_txt"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/tv_fuelprice"
-                        android:textSize="@dimen/sp15" />
-
-                    <TextView
-                        android:id="@+id/tv_fuelprice"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp4"
-                        android:text="@string/fuelrs"
-                        android:textSize="@dimen/sp15" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/tv_fuelfilled_txt"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/tv_fuelfilled"
-                        android:textSize="@dimen/sp15" />
-
-                    <TextView
-                        android:id="@+id/tv_fuelfilled"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp4"
-                        android:text="6.78 ltr"
-                        android:textSize="@dimen/sp15" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp4"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/tv_fuelfilleddate_txt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/tv_fueldate"
-                        android:textSize="@dimen/sp15" />
+                        android:textSize="@dimen/sp15"/>
 
                     <TextView
                         android:id="@+id/tv_fuelfilleddate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/dp4"
-                        android:text="13-Apr-2017"
-                        android:textSize="@dimen/sp15" />
-
+                        android:textSize="@dimen/sp15"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -183,11 +73,10 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/tv_fuelamount_txt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/tv_fuelamount"
-                        android:textSize="@dimen/sp15" />
+                        android:textSize="@dimen/sp15"/>
 
                     <TextView
                         android:id="@+id/tv_fuelamount"
@@ -195,17 +84,15 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/dp4"
                         android:text="@string/rs"
-                        android:textSize="@dimen/sp15" />
-
+                        android:textSize="@dimen/sp15"/>
                 </LinearLayout>
-
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/distance_mileage_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp4"
+                android:baselineAligned="false"
                 android:orientation="horizontal">
 
                 <LinearLayout
@@ -215,20 +102,18 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/tv_distcovered_txt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/tv_distcovered"
-                        android:textSize="@dimen/sp15" />
+                        android:text="@string/tv_fuelprice"
+                        android:textSize="@dimen/sp15"/>
 
                     <TextView
-                        android:id="@+id/tv_distcovered"
+                        android:id="@+id/tv_fuelprice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/dp4"
-                        android:text="300 Kms"
-                        android:textSize="@dimen/sp15" />
-
+                        android:text="@string/fuelrs"
+                        android:textSize="@dimen/sp15"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -238,27 +123,25 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/tv_mileage_txt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/tv_mileage"
-                        android:textSize="@dimen/sp15" />
+                        android:text="@string/tv_fuelfilled"
+                        android:textSize="@dimen/sp15"/>
 
                     <TextView
-                        android:id="@+id/tv_mileage"
+                        android:id="@+id/tv_fuelfilled"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/dp4"
-                        android:text="48.52 kms/ltr"
-                        android:textSize="@dimen/sp15" />
-
+                        android:textSize="@dimen/sp15"/>
                 </LinearLayout>
-
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dp4"
+                android:baselineAligned="false"
                 android:orientation="horizontal">
 
                 <LinearLayout
@@ -267,72 +150,47 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="@dimen/dp4"
-                    android:layout_weight="0.40"
+                    android:layout_weight="0.15"
                     android:orientation="horizontal"
                     android:visibility="visible">
 
                     <TextView
-                        android:id="@+id/tv_fuelduration_txt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/tv_fuelduration"
-                        android:textSize="@dimen/sp15" />
+                        android:textSize="@dimen/sp15"/>
 
                     <TextView
                         android:id="@+id/tv_fuelduration"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/dp4"
-                        android:text="5 Days"
-                        android:textSize="@dimen/sp15" />
-
+                        android:textSize="@dimen/sp15"/>
                 </LinearLayout>
 
-                <LinearLayout
+                <ImageView
+                    android:id="@+id/delete_btn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:contentDescription="@string/app_name"
+                    android:foreground="?android:selectableItemBackground"
                     android:gravity="end"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:id="@+id/edit_btn"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:foreground="?android:selectableItemBackground"
-                        android:visibility="invisible"
-                        app:srcCompat="@drawable/edit_icon" />
-
-                    <ImageView
-                        android:id="@+id/delete_btn"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:foreground="?android:selectableItemBackground"
-                        app:srcCompat="@drawable/delete_icon" />
-
-                </LinearLayout>
-
+                    app:srcCompat="@drawable/delete_icon"
+                    android:visibility="gone"/>
             </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp4" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="50"
+            android:layout_weight="1"
             android:orientation="vertical">
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorAccent" />
+                android:background="@color/colorAccent"/>
         </LinearLayout>
-
     </LinearLayout>
-
 </android.support.v7.widget.CardView>

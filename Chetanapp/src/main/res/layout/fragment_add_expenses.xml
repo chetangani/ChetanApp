@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.expenses.AddExpenses">
+
+    <Button
+        android:id="@+id/addexpense_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/buttonpressed"
+        android:text="@string/addexpensesbtn"
+        android:textColor="#FFFFFF"
+        android:textSize="@dimen/sp18"
+        android:textStyle="bold"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/addexpense_btn"
+        android:layout_alignParentTop="true"
+        android:overScrollMode="never"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dp8"
+            android:layout_marginStart="@dimen/dp8"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/expense_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp8"
+                android:gravity="center"
+                android:textSize="@dimen/sp16"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp8"
+                android:gravity="center"
+                android:text="@string/transaction_type"
+                android:textSize="@dimen/sp12"/>
+
+            <RadioGroup
+                android:id="@+id/rg_transaction_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/rb_credit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/dp16"
+                    android:text="@string/select_credit"/>
+
+                <RadioButton
+                    android:id="@+id/rb_debit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp16"
+                    android:text="@string/select_debit"/>
+            </RadioGroup>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp8"
+                android:background="@color/white"
+                android:baselineAligned="false"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/dp4"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/transaction_mode"
+                        android:textSize="@dimen/sp12"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp0.5"
+                        android:layout_marginEnd="@dimen/dp16"
+                        android:layout_marginStart="@dimen/dp16"
+                        android:background="@color/divider"/>
+
+                    <Spinner
+                        android:id="@+id/spn_transaction_mode"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp4"/>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="@dimen/dp1"
+                    android:layout_height="match_parent"
+                    android:background="@color/divider"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp4"
+                    android:layout_weight="0.75"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/transaction_category"
+                        android:textSize="@dimen/sp12"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp0.5"
+                        android:layout_marginEnd="@dimen/dp16"
+                        android:layout_marginStart="@dimen/dp16"
+                        android:background="@color/divider"/>
+
+                    <Spinner
+                        android:id="@+id/spn_transaction_category"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp4"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/til_expense_new_category"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp8"
+                android:visibility="gone">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/et_expense_new_category"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/new_category"
+                    android:inputType="textCapCharacters"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <LinearLayout
+                android:id="@+id/card_mode_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp8"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:text="@string/card"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1.2"
+                    android:text="@string/semi"/>
+
+                <Spinner
+                    android:id="@+id/spn_card_transaction"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.3"/>
+            </LinearLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/til_expense_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp8">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/et_expense_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/description"
+                    android:imeOptions="actionNext"
+                    android:inputType="textCapSentences"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/til_expense_amount"
+                android:layout_width="@dimen/dp175"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/dp8">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/et_expense_amount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:hint="@string/amount"
+                    android:inputType="numberDecimal"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp0.5"
+                android:layout_marginBottom="@dimen/dp8"
+                android:layout_marginTop="@dimen/dp8"
+                android:background="@color/divider"/>
+
+            <TextView
+                android:id="@+id/month_expenses"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/month_expenses"
+                android:textSize="@dimen/sp16"
+                android:textStyle="bold"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp8"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@color/white"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="@string/text_credit"
+                            android:textSize="@dimen/sp18"
+                            android:textStyle="bold"/>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/dp0.5"
+                            android:layout_marginEnd="@dimen/dp16"
+                            android:layout_marginStart="@dimen/dp16"
+                            android:background="@color/divider"/>
+
+                        <TextView
+                            android:id="@+id/credit_amount"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginBottom="@dimen/dp4"
+                            android:layout_marginTop="@dimen/dp4"
+                            android:gravity="center"
+                            android:text="@string/rs"
+                            android:textSize="@dimen/sp21"/>
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="@dimen/dp1"
+                        android:layout_height="match_parent"
+                        android:background="@color/divider"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@color/white"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="@string/text_debit"
+                            android:textSize="@dimen/sp18"
+                            android:textStyle="bold"/>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/dp0.5"
+                            android:layout_marginEnd="@dimen/dp16"
+                            android:layout_marginStart="@dimen/dp16"
+                            android:background="@color/divider"/>
+
+                        <TextView
+                            android:id="@+id/debit_amount"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginBottom="@dimen/dp4"
+                            android:layout_marginTop="@dimen/dp4"
+                            android:gravity="center"
+                            android:text="@string/rs"
+                            android:textSize="@dimen/sp21"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp1"
+                    android:background="@color/divider"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/dp16"
+                    android:background="@color/white"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="@string/text_balance"
+                        android:textSize="@dimen/sp18"
+                        android:textStyle="bold"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:layout_marginEnd="@dimen/dp88"
+                        android:layout_marginStart="@dimen/dp88"
+                        android:background="@color/divider"/>
+
+                    <TextView
+                        android:id="@+id/balance_amount"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="@dimen/dp4"
+                        android:layout_marginTop="@dimen/dp4"
+                        android:gravity="center"
+                        android:text="@string/rs"
+                        android:textSize="@dimen/sp21"/>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

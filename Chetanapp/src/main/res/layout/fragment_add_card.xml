@@ -1,9 +1,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.chetangani.myapp.fragments.cards.AddCardFragment">
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context="com.chetangani.myapp.fragments.cards.AddCardFragment">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -14,7 +14,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="16dp">
 
@@ -23,8 +23,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="Card Type"
-                android:textStyle="bold" />
+                android:text="@string/text_card_type"
+                android:textStyle="bold"/>
 
             <RadioGroup
                 android:id="@+id/rg_card_type"
@@ -38,15 +38,15 @@
                     android:id="@+id/rb_credit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="16dp"
-                    android:text="Credit" />
+                    android:layout_marginEnd="16dp"
+                    android:text="@string/text_credit"/>
 
                 <RadioButton
                     android:id="@+id/rb_debit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
-                    android:text="Debit" />
+                    android:layout_marginStart="16dp"
+                    android:text="@string/text_debit"/>
             </RadioGroup>
 
             <android.support.design.widget.TextInputLayout
@@ -60,25 +60,28 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:hint="Card Number"
+                    android:hint="@string/text_card_number"
                     android:inputType="number"
                     android:maxLength="19"
                     android:textSize="18sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"/>
             </android.support.design.widget.TextInputLayout>
 
             <ImageView
                 android:id="@+id/card_logo"
-                android:layout_width="wrap_content"
-                android:layout_height="19dp"
+                android:layout_width="60dp"
+                android:layout_height="24dp"
                 android:layout_gravity="end"
-                android:src="@drawable/visacard_logo"
-                android:visibility="invisible" />
+                android:scaleType="fitXY"
+                android:contentDescription="@string/tv_bank"
+                android:src="@drawable/diners_club_logo"
+                android:visibility="invisible"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:baselineAligned="false"
                 android:orientation="horizontal">
 
                 <LinearLayout
@@ -92,9 +95,9 @@
                         android:id="@+id/expiry_txt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Expiry"
+                        android:text="@string/text_expiry"
                         android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"/>
 
                     <EditText
                         android:id="@+id/et_expiry"
@@ -102,11 +105,11 @@
                         android:layout_height="wrap_content"
                         android:ems="10"
                         android:gravity="center"
-                        android:hint="MM/YY"
+                        android:hint="@string/text_expiry_format"
                         android:inputType="number"
                         android:maxLength="5"
                         android:textSize="16sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"/>
 
                 </LinearLayout>
 
@@ -121,9 +124,9 @@
                         android:id="@+id/cvv_txt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="CVV"
+                        android:text="@string/text_cvv"
                         android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"/>
 
                     <EditText
                         android:id="@+id/et_cvv"
@@ -131,10 +134,10 @@
                         android:layout_height="wrap_content"
                         android:ems="10"
                         android:gravity="center"
+                        android:hint="@string/text_cvv"
                         android:inputType="number"
-                        android:maxLength="3"
                         android:textSize="16sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"/>
 
                 </LinearLayout>
 
@@ -150,8 +153,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
-                    android:hint="Card Name"
-                    android:inputType="textCapSentences" />
+                    android:hint="@string/text_card_name"
+                    android:inputType="textCapSentences"/>
             </android.support.design.widget.TextInputLayout>
 
             <LinearLayout
@@ -165,15 +168,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Bank Name: "
+                    android:text="@string/text_bank_name"
                     android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"/>
 
                 <Spinner
                     android:id="@+id/spn_banknames"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.40" />
+                    android:layout_weight="0.40"/>
 
             </LinearLayout>
 
@@ -183,7 +186,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:gravity="center"
-                android:text="Login Password available" />
+                android:text="@string/text_login_available"/>
 
             <RadioGroup
                 android:id="@+id/rg_loginpass"
@@ -196,16 +199,16 @@
                     android:id="@+id/rb_yes"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="16dp"
-                    android:text="Yes" />
+                    android:layout_marginEnd="16dp"
+                    android:text="@string/select_yes"/>
 
                 <RadioButton
                     android:id="@+id/rb_no"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
+                    android:layout_marginStart="16dp"
                     android:checked="true"
-                    android:text="No" />
+                    android:text="@string/select_no"/>
             </RadioGroup>
 
             <android.support.design.widget.TextInputLayout
@@ -218,31 +221,36 @@
                     android:id="@+id/et_loginid"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Login ID" />
+                    android:hint="@string/text_login_id"
+                    android:inputType="text"/>
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/til_loginpassword"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                app:passwordToggleEnabled="true">
 
                 <EditText
                     android:id="@+id/et_loginpassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Login Password" />
+                    android:hint="@string/text_login_password"
+                    android:inputType="textPassword"/>
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/til_transpassword"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                app:passwordToggleEnabled="true">
 
                 <EditText
                     android:id="@+id/et_transpassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Transaction Password" />
+                    android:hint="@string/text_transaction_password"
+                    android:inputType="textPassword"/>
             </android.support.design.widget.TextInputLayout>
 
         </LinearLayout>
@@ -256,9 +264,9 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:background="@drawable/buttonpressed"
-        android:text="Add Card"
+        android:text="@string/addcardbtn"
         android:textColor="#FFFFFF"
         android:textSize="18sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"/>
 
 </RelativeLayout>
