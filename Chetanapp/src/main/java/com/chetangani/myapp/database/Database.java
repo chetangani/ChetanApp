@@ -62,7 +62,7 @@ public class Database {
             db.execSQL("Create table ONLINE_BANKING(_id integer primary key, bank_code text, login_id text, login_password text, " +
                     "trans_password text);");
             db.execSQL("Create table EXPENSES(_id integer primary key, exp_date text, exp_month text, exp_year text, " +
-                    "exp_time text, exp_mode text, exp_credit text, exp_debit text, exp_description text, exp_card text, exp_category text);");
+                    "exp_time text, exp_mode text, exp_credit numeric, exp_debit numeric, exp_description text, exp_card text, exp_category text);");
             db.execSQL("Create table CATEGORY(_id integer primary key, categories text, category_code text);");
         }
 

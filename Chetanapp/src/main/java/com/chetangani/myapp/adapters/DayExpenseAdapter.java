@@ -43,7 +43,7 @@ public class DayExpenseAdapter extends RecyclerView.Adapter<DayExpenseAdapter.Da
         } else holder.card_layout.setVisibility(View.GONE);
         holder.tv_category.setText(details.getDay_exp_category());
         holder.tv_description.setText(details.getDay_exp_description());
-        holder.tv_amount.setText(functionCalls.getAmount(context, details.getDay_exp_amount()));
+        holder.tv_amount.setText(functionCalls.getAmount(context, Double.parseDouble(details.getDay_exp_amount())));
     }
 
     @Override

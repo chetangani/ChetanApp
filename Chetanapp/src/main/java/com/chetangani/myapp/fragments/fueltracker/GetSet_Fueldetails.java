@@ -3,7 +3,8 @@ package com.chetangani.myapp.fragments.fueltracker;
 import java.io.Serializable;
 
 public class GetSet_Fueldetails implements Serializable {
-    private String startreading, endreading, fuelprice, fuelfilled, fueldate, fuelamount, fuellastdate, fuelid, fuel_brand;
+    private String startreading, endreading, fuelprice, fuelfilled, fueldate, fuelamount, fuellastdate, fuelid, fuel_brand,
+            test_mileage, test_distance;
 
     public GetSet_Fueldetails() {
     }
@@ -55,5 +56,21 @@ public class GetSet_Fueldetails implements Serializable {
 
     public String getFuel_brand() {
         return fuel_brand;
+    }
+
+    public String getTest_mileage() {
+        return test_mileage;
+    }
+
+    public void setTest_mileage(String test_mileage) {
+        this.test_mileage = test_mileage;
+    }
+
+    public String getTest_distance() {
+        return test_distance;
+    }
+
+    public void setTest_distance(String test_distance) {
+        this.test_distance = test_distance;
     }
 }

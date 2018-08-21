@@ -32,6 +32,7 @@ import android.widget.TextView;
 import com.chetangani.myapp.MainActivity;
 import com.chetangani.myapp.R;
 import com.chetangani.myapp.adapters.FuelAdapter;
+import com.chetangani.myapp.adapters.MileageStatusAdapter;
 import com.chetangani.myapp.database.Database;
 import com.chetangani.myapp.values.GetSetValues;
 
@@ -220,6 +221,44 @@ public class AllFuelDetails extends Fragment {
                 TextView tv_mileage = status_layout.findViewById(R.id.dlg_fuel_mileage);
                 tv_distance.setText(getSetValues.getDistance());
                 tv_mileage.setText(getSetValues.getMileage());
+                RecyclerView status_view = status_layout.findViewById(R.id.mileage_status_view);
+                ArrayList<GetSet_Fueldetails> status_list = new ArrayList<>();
+                MileageStatusAdapter statusAdapter = new MileageStatusAdapter(status_list);
+                status_view.setHasFixedSize(true);
+                status_view.setLayoutManager(new LinearLayoutManager(getActivity()));
+                status_view.setAdapter(statusAdapter);
+                double fuel = 0;
+                int status_reading = 0, mileage = 30, except_reading;
+                Cursor data = database.fueldetails();
+                if (data.getCount() > 0) {
+                    data.moveToNext();
+                    status_reading = Integer.parseInt(data.getString(data.getColumnIndexOrThrow("start_reading")));
+                    fuel = data.getDouble(data.getColumnIndex("fuel_filled"));
+                }
+                data.close();
+                for (int i = 0; i < 9; i++) {
+                    GetSet_Fueldetails getSetFueldetails = new GetSet_Fueldetails();
+                    if (i == 0) {
+                        except_reading = (int) (status_reading + (fuel * mileage));
+                        getSetFueldetails.setTest_mileage(""+mileage);
+                        getSetFueldetails.setTest_distance(""+except_reading);
+                    } else {
+                        if ((i % 2) == 0) {
+                            mileage = mileage + 3;
+                            except_reading = (int) (status_reading + (fuel * mileage));
+                            getSetFueldetails.setTest_mileage(""+mileage);
+                            getSetFueldetails.setTest_distance(""+except_reading);
+                        }
+                        if ((i % 2) == 1) {
+                            mileage = mileage + 2;
+                            except_reading = (int) (status_reading + (fuel * mileage));
+                            getSetFueldetails.setTest_mileage(""+mileage);
+                            getSetFueldetails.setTest_distance(""+except_reading);
+                        }
+                    }
+                    status_list.add(getSetFueldetails);
+                    statusAdapter.notifyDataSetChanged();
+                }
                 mileage_status.setPositiveButton("OK", null);
                 alertDialog = mileage_status.create();
                 alertDialog.show();
@@ -237,6 +276,7 @@ public class AllFuelDetails extends Fragment {
             double fuel = mileage.getDouble(mileage.getColumnIndex("fuel_filled"));
             getSetValues.setMileage(new DecimalFormat("##0.##").format(distance / fuel)+" Kms/L");
         } else showdialog(NODATA_DLG);
+        mileage.close();
     }
 
     private void validate_reading(final AlertDialog alertDialog) {

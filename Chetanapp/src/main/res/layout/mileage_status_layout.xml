@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/dp4"
-        android:layout_marginTop="@dimen/dp16"
+        android:layout_marginTop="@dimen/dp4"
         android:gravity="center"
         android:text="@string/text_mileage_details"
         android:textSize="@dimen/sp21"
@@ -37,7 +37,9 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_weight="1.3"
+            android:gravity="center"
             android:text="@string/semi"
             android:textSize="@dimen/sp16"/>
 
@@ -67,7 +69,9 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_weight="1.3"
+            android:gravity="center"
             android:text="@string/semi"
             android:textSize="@dimen/sp16"/>
 
@@ -79,6 +83,27 @@
             android:textSize="@dimen/sp16"
             android:textStyle="bold"/>
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/divider"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp4"
+        android:gravity="center"
+        android:text="@string/expected_mileage"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/mileage_status_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dp4"
+        android:layout_marginTop="@dimen/dp4"
+        android:overScrollMode="never"
+        android:scrollbars="none"/>
 
     <View
         android:layout_width="match_parent"

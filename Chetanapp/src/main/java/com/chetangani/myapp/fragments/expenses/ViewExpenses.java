@@ -90,13 +90,15 @@ public class ViewExpenses extends Fragment {
                     exp_month = value;
                     getSetExpenses.setValue(functionCalls.expenses_month_view(value));
                     month_data.moveToNext();
-                    getSetExpenses.setExp_debit(functionCalls.getAmount(getActivity(), month_data.getString(month_data.getColumnIndex("AMOUNT"))));
+                    getSetExpenses.setExp_debit(functionCalls.getAmount(getActivity(),
+                            month_data.getDouble(month_data.getColumnIndex("AMOUNT"))));
                     getSetExpenses.setType(0);
                     expenses_list.add(getSetExpenses);
                 }
                 GetSet_Expenses getSet_expenses = new GetSet_Expenses();
                 getSet_expenses.setValue(functionCalls.expenses_date_view(data.getString(data.getColumnIndex("exp_date"))));
-                getSet_expenses.setExp_debit(functionCalls.getAmount(getActivity(), data.getString(data.getColumnIndex("AMOUNT"))));
+                getSet_expenses.setExp_debit(functionCalls.getAmount(getActivity(),
+                        data.getDouble(data.getColumnIndex("AMOUNT"))));
                 getSet_expenses.setType(1);
                 expenses_list.add(getSet_expenses);
                 expensesAdapter.notifyDataSetChanged();

@@ -116,6 +116,7 @@
     <string name="enter_valid_reading">Reading should be greater than last reading&#8230;</string>
     <string name="distance">Distance</string>
     <string name="mileage">Mileage</string>
+    <string name="expected_mileage">Expected Mileage Reading</string>
     <string name="fuel_duration">Fuel Duration</string>
     <string name="semi">:</string>
     <string name="particular">Particular</string>

@@ -32,13 +32,17 @@ public class FunctionCalls {
         return data.getString(data.getColumnIndexOrThrow(column_name));
     }
 
-    public String getAmount(Context context, String value) {
+    public String getAmount(Context context, double value) {
         return Objects.requireNonNull(context).getResources().getString(R.string.rs) + " " + getRupeeformat(value) + " /-";
     }
 
-    private String getRupeeformat(String value) {
-        DecimalFormat num = new DecimalFormat("##,##,##,###.##");
-        return String.valueOf(num.format(Double.parseDouble(value)));
+//    public void logstatus(String value) {
+//        Log.d("debug", value);
+//    }
+
+    private String getRupeeformat(double value) {
+        DecimalFormat num = new DecimalFormat("##,##,##,##0.00");
+        return String.valueOf(num.format(value));
     }
 
     public String getcurrentdate() {
@@ -46,7 +50,7 @@ public class FunctionCalls {
         return new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(c.getTime());
     }
 
-    public String getcurrentMonth() {
+    /*public String getcurrentMonth() {
         Calendar c = Calendar.getInstance();
         return new SimpleDateFormat("yyyy-MM", Locale.getDefault()).format(c.getTime());
     }
@@ -54,7 +58,7 @@ public class FunctionCalls {
     public String getcurrentYear() {
         Calendar c = Calendar.getInstance();
         return new SimpleDateFormat("yyyy", Locale.getDefault()).format(c.getTime());
-    }
+    }*/
 
     public String getcurrentTime() {
         Calendar c = Calendar.getInstance();
