@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginEnd="@dimen/dp8"
+    android:layout_marginStart="@dimen/dp8"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/view_cards_btn"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:drawableStart="@drawable/credit_card_image"
+        android:text="@string/nav_cards"
+        android:textColor="@color/black"
+        android:textSize="@dimen/sp24"
+        android:textStyle="bold"/>
+
+    <Button
+        android:id="@+id/view_services_btn"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:drawableEnd="@drawable/services_image"
+        android:text="@string/nav_services"
+        android:textColor="@color/black"
+        android:textSize="@dimen/sp24"
+        android:textStyle="bold"/>
+
+    <Button
+        android:id="@+id/view_fuel_details_btn"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:drawableStart="@drawable/fuel_image"
+        android:text="@string/nav_allfuel"
+        android:textColor="@color/black"
+        android:textSize="@dimen/sp24"
+        android:textStyle="bold"/>
+
+    <Button
+        android:id="@+id/view_expenses_btn"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:drawableEnd="@drawable/expenses_image"
+        android:text="@string/nav_expenses"
+        android:textColor="@color/black"
+        android:textSize="@dimen/sp24"
+        android:textStyle="bold"/>
+</LinearLayout>

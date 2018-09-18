@@ -46,6 +46,8 @@
     <string name="name">Enter Full Name</string>
     <string name="email">Enter Email ID</string>
     <string name="password">Enter Password</string>
+    <string name="menu_edit">Edit</string>
+    <string name="menu_delete">Delete</string>
 
     <string name="addservicebtn">ADD SERVICE DETAILS</string>
     <string name="addcardbtn">ADD CARD</string>
@@ -290,4 +292,8 @@
         <item>06</item>
         <item>99</item>
     </string-array>
+    <string name="title_activity_navigation">NavigationActivity</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
 </resources>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_cards"
+            android:icon="@drawable/credit_card_image"
+            android:title="@string/nav_cards" />
+        <item
+            android:id="@+id/nav_services"
+            android:icon="@drawable/services_image"
+            android:title="@string/nav_services" />
+        <item
+            android:id="@+id/nav_fueltrackers"
+            android:icon="@drawable/fuel_image"
+            android:title="@string/nav_allfuel" />
+        <item
+            android:id="@+id/nav_expenses"
+            android:icon="@drawable/expenses_image"
+            android:title="@string/nav_expenses" />
+    </group>
+</menu>

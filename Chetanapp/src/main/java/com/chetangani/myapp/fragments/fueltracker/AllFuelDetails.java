@@ -6,14 +6,17 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -46,6 +49,10 @@ public class AllFuelDetails extends Fragment {
     private static final int FUEL_STATUS_DLG = 3;
 
     View view;
+
+    Toolbar toolbar;
+    AppBarLayout.LayoutParams params;
+
     RecyclerView trackers_view;
     ArrayList<GetSet_Fueldetails> trackers_list;
     FuelAdapter fuelAdapter;
@@ -72,6 +79,26 @@ public class AllFuelDetails extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.allfueltrackers_layout, container, false);
+
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
+        toolbar = view.findViewById(R.id.main_toolbar);
+        if (activity != null) {
+            activity.setSupportActionBar(toolbar);
+            Objects.requireNonNull(activity.getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+            activity.getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+        params = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
+        params.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL
+                | AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Objects.requireNonNull(getActivity()).onBackPressed();
+            }
+        });
+
+        ((MainActivity) Objects.requireNonNull(getActivity())).setActionBarTitle(getActivity().getResources().getString(R.string.nav_fuel));
 
         database = ((MainActivity) Objects.requireNonNull(getActivity())).getDatabase();
         getSetValues = new GetSetValues();

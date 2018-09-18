@@ -3,11 +3,14 @@ package com.chetangani.myapp.fragments.expenses;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +28,9 @@ import java.util.Objects;
 public class ViewExpenses extends Fragment {
 
     View view;
+
+    Toolbar toolbar;
+    AppBarLayout.LayoutParams params;
 
     public static String exp_month="";
 
@@ -46,6 +52,26 @@ public class ViewExpenses extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_view_expenses, container, false);
+
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
+        toolbar = view.findViewById(R.id.main_toolbar);
+        if (activity != null) {
+            activity.setSupportActionBar(toolbar);
+            Objects.requireNonNull(activity.getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+            activity.getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+        params = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
+        params.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL
+                | AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Objects.requireNonNull(getActivity()).onBackPressed();
+            }
+        });
+
+        ((MainActivity) Objects.requireNonNull(getActivity())).setActionBarTitle(getActivity().getResources().getString(R.string.nav_expenses));
 
         initialize();
 

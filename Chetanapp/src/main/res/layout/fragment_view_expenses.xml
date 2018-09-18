@@ -7,6 +7,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.expenses.ViewExpenses">
 
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <include layout="@layout/toolbar"/>
+    </android.support.design.widget.AppBarLayout>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/view_all_expenses"
         android:layout_width="match_parent"

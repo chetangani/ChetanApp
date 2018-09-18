@@ -3,11 +3,14 @@ package com.chetangani.myapp.fragments.cards;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +28,10 @@ import java.util.Objects;
 
 public class AllCards extends Fragment {
     View view;
+
+    Toolbar toolbar;
+    AppBarLayout.LayoutParams params;
+
     RecyclerView cards_view;
     ArrayList<GetSet_CardDetails> cards_list;
     CardAdapter cardAdapter;
@@ -48,6 +55,26 @@ public class AllCards extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.allcards_layout, container, false);
+
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
+        toolbar = view.findViewById(R.id.main_toolbar);
+        if (activity != null) {
+            activity.setSupportActionBar(toolbar);
+            Objects.requireNonNull(activity.getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+            activity.getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+        params = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
+        params.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL
+                | AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Objects.requireNonNull(getActivity()).onBackPressed();
+            }
+        });
+
+        ((MainActivity) Objects.requireNonNull(getActivity())).setActionBarTitle(getActivity().getResources().getString(R.string.nav_cards));
 
         database = ((MainActivity) Objects.requireNonNull(getActivity())).getDatabase();
 

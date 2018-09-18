@@ -5,20 +5,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <include layout="@layout/toolbar"/>
+    </android.support.design.widget.AppBarLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <include layout="@layout/cards_filter_layout" />
+        <include layout="@layout/cards_filter_layout"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/allcards_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:overScrollMode="never"
-            android:scrollbars="none"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+            android:scrollbars="none"/>
 
     </LinearLayout>
 
