@@ -42,6 +42,9 @@ public class FuelAdapter extends RecyclerView.Adapter<FuelAdapter.FuelViewHolder
     @Override
     public void onBindViewHolder(@NonNull FuelViewHolder holder, int position) {
         GetSet_Fueldetails getSetFueldetails = arrayList.get(position);
+        if (position == 0)
+            holder.delete_btn.setVisibility(View.VISIBLE);
+        else holder.delete_btn.setVisibility(View.GONE);
         holder.tv_fuelprice.setText(context.getResources().getString(R.string.rs)+" "+ getSetFueldetails.getFuelprice()+" /-");
         String fuel_filled = getSetFueldetails.getFuelfilled() + " ltr";
         holder.tv_fuelfilled.setText(fuel_filled);
@@ -65,8 +68,6 @@ public class FuelAdapter extends RecyclerView.Adapter<FuelAdapter.FuelViewHolder
                 holder.tv_duration.setText(""+days+" Day");
             } else holder.tv_duration.setText(""+days+" Days");
         }
-        if (position == 0)
-            holder.delete_btn.setVisibility(View.VISIBLE);
     }
 
     @Override
